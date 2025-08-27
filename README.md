@@ -10,3 +10,12 @@ This LBE is all about Apache Flink, today's premier framework for stream process
 This project is divided into modules, each one building on the last. Each segment includes a "README", giving some background and discussion on that topic, plus an example implementation of the topic discussed.
 
 To follow along, open the modules in order and read the README in each one.
+
+
+## TODO
+- Write descriptions for flink module
+- Write producer to send messags to kafka
+- Write flink transformation job
+- Add postgres module
+- Write flink sink job
+- Get it all working e2e

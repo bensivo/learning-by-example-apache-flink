@@ -1,0 +1,43 @@
+version: '3.4'
+
+services:
+  flink-jobmanager:
+    image: flink
+    container_name: flink-jobmanager
+    ports:
+      - "8081:8081"
+    networks:
+      - lbe-flink
+    command: jobmanager
+    environment:
+      - JOB_MANAGER_RPC_ADDRESS=flink-jobmanager
+      - |
+        FLINK_PROPERTIES=
+        jobmanager.rpc.address: flink-jobmanager
+        state.backend: filesystem
+        state.checkpoints.dir: file:///tmp/flink-checkpoints
+        heartbeat.interval: 1000
+        heartbeat.timeout: 5000
+
+  flink-taskmanager:
+    image: flink
+    container_name: flink-taskmanager
+    depends_on:
+      - flink-jobmanager
+    networks:
+      - lbe-flink
+    command: taskmanager
+    environment:
+      - JOB_MANAGER_RPC_ADDRESS=flink-jobmanager
+      - |
+        FLINK_PROPERTIES=
+        jobmanager.rpc.address: flink-jobmanager
+        taskmanager.numberOfTaskSlots: 2
+        state.backend: filesystem
+        state.checkpoints.dir: file:///tmp/flink-checkpoints
+        heartbeat.interval: 1000
+        heartbeat.timeout: 5000
+
+networks:
+  lbe-flink:
+    external: true
